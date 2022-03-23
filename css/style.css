@@ -43,12 +43,14 @@ main div {
   background-color: #feeafa;
 }
 
-main div:hover {
-  transition: 350ms;
-  color: black;
+main canvas {
+  margin-top: 30px;
+  margin-bottom: 100px;
+  margin-left: 500px;
+  margin-right: 500px;
 }
 
-main ul {
+/* main ul {
   margin-top: 20px;
   font-size: 1.5em;
-}
+} */
