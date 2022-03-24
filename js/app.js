@@ -3,7 +3,7 @@
 // ******** GLOBAAL VARIABLES **********
 
 let products = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'water-can', 'wine-glass'];
-let votingRounds = 5;
+let votingRounds = 25;
 let productArray = [];
 let previousIndexes = [];
 
@@ -22,7 +22,16 @@ let resultsButton = document.getElementById('results-button');
 
 let ctx = document.getElementById('myChart').getContext('2d');
 
-// ********** CONSTRUCTOR ************
+
+// *********** LOCAL STORAGE ************
+
+let retrievedProducts = localStorage.getItem('product');
+console.log(retrievedProducts);
+
+let parsedProducts = JSON.parse(retrievedProducts);
+console.log(parsedProducts);
+
+// *********** CONSTRUCTOR ************
 
 function Product(name, fileExtension = 'jpg') {
   this.productName = name;
@@ -33,33 +42,37 @@ function Product(name, fileExtension = 'jpg') {
   productArray.push(this);
 }
 
-for(let i = 0; i < products.length; i++) {
-  if(products[i] === 'sweep') {
-    new Product('sweep', 'png');
-  } else {
-    new Product(`${products[i]}`);
-  }
-}
+// for (let i = 0; i < products.length; i++) {
+//   if (products[i] === 'sweep') {
+//     new Product('sweep', 'png');
+//   } else {
+//     new Product(`${products[i]}`);
+//   }
+// }
 
-// new Product('bag');
-// new Product('banana');
-// new Product('bathroom');
-// new Product('boots');
-// new Product('breakfast');
-// new Product('bubblegum');
-// new Product('chair');
-// new Product('cthulhu');
-// new Product('dog-duck');
-// new Product('dragon');
-// new Product('pen');
-// new Product('pet-sweep');
-// new Product('scissors');
-// new Product('shark');
-// new Product('sweep', 'png');
-// new Product('tauntaun');
-// new Product('unicorn');
-// new Product('water-can');
-// new Product('wine-glass');
+if (retrievedProducts) {
+  productArray = parsedProducts;
+} else {
+  new Product('bag');
+  new Product('banana');
+  new Product('bathroom');
+  new Product('boots');
+  new Product('breakfast');
+  new Product('bubblegum');
+  new Product('chair');
+  new Product('cthulhu');
+  new Product('dog-duck');
+  new Product('dragon');
+  new Product('pen');
+  new Product('pet-sweep');
+  new Product('scissors');
+  new Product('shark');
+  new Product('sweep', 'png');
+  new Product('tauntaun');
+  new Product('unicorn');
+  new Product('water-can');
+  new Product('wine-glass');
+}
 
 // ********** HELPER FUNCTIONS ***********
 
@@ -133,16 +146,21 @@ function handleClick(event) {
   votingRounds--;
   if (votingRounds === 0) {
     imgContainer.removeEventListener('click', handleClick);
+
+    let stringifiedProducts = JSON.stringify(productArray);
+    localStorage.setItem('product', stringifiedProducts);
     return;
   }
   renderImgs();
 }
 
 function handleShowResults() {
+  let productNames = [];
   let productVotes = [];
   let productViews = [];
 
   for (let i = 0; i < productArray.length; i++) {
+    productNames.push(productArray[i].name);
     productVotes.push(productArray[i].clicks);
     productViews.push(productArray[i].views);
   }
@@ -156,10 +174,10 @@ function handleShowResults() {
           label: '# of Votes',
           data: productVotes,
           backgroundColor: [
-            'red'
+            '#e29578'
           ],
           borderColor: [
-            'red'
+            '#e29578'
           ],
           borderWidth: 1
         },
@@ -167,10 +185,10 @@ function handleShowResults() {
           label: '# of Views',
           data: productViews,
           backgroundColor: [
-            'blue'
+            '#006d77'
           ],
           borderColor: [
-            'blue'
+            '#006d77'
           ],
           borderWidth: 1
         }]
@@ -183,9 +201,7 @@ function handleShowResults() {
         }
       }
     };
-
-    const myChart = new Chart(ctx, myChartObj);
-
+  new Chart(ctx, myChartObj);
   }
 }
 
