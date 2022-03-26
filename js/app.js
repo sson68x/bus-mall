@@ -201,7 +201,7 @@ function handleShowResults() {
         }
       }
     };
-  new Chart(ctx, myChartObj);
+    new Chart(ctx, myChartObj);
   }
 }
 
